@@ -4,7 +4,9 @@ import com.example.quizapp.data.remote.QuestionList
 import com.example.quizapp.domain.repository.QuizRepository
 import com.example.quizapp.util.Resource
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class QuizRepositoryImpl @Inject constructor(
     private val api: QuizApi
 ): QuizRepository{

@@ -2,6 +2,8 @@ package com.example.quizapp.di
 
 import com.example.quizapp.data.QuizApi
 import com.example.quizapp.data.QuizRepositoryImpl
+import com.example.quizapp.domain.repository.QuizRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,4 +35,15 @@ object AppModule {
             .build()
             .create(QuizApi::class.java)
     }
+
+
+}
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class ReposioryModule{
+    @Binds
+    @Singleton
+    abstract fun bindQuizRepository(
+        quizRepositoryImpl: QuizRepositoryImpl
+    ): QuizRepository
 }

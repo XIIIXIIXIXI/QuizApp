@@ -10,6 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.quizapp.domain.model.testData
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -19,10 +20,12 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination(start = true)
 fun TestScreenApi(
     navigator: DestinationsNavigator,
-     testData : testData = testData()
+     //testData : testData = testData()
+    viewModel: QuizViewModel = hiltViewModel()
 ){
 
-    val questionData = testData.setUpTestData()
+    //val questionData = testData.setUpTestData()
+    val questionData = viewModel.state.value
     LazyColumn(modifier = Modifier.fillMaxHeight()){
         items(questionData.questions.size){ it ->
             Text(
@@ -30,7 +33,9 @@ fun TestScreenApi(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 24.dp)
             )
         }
     }
