@@ -1,5 +1,6 @@
-package com.example.quizapp.data.remote
+package com.example.quizapp.data
 
+import com.example.quizapp.data.remote.QuestionList
 import retrofit2.http.GET
 import retrofit2.http.Path
 
