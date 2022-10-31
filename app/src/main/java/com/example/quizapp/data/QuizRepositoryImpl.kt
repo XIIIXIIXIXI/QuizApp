@@ -2,7 +2,7 @@ package com.example.quizapp.data
 
 import com.example.quizapp.data.remote.QuestionList
 import com.example.quizapp.domain.repository.QuizRepository
-import com.example.quizapp.domain.util.Resource
+import com.example.quizapp.util.Resource
 import javax.inject.Inject
 
 class QuizRepositoryImpl @Inject constructor(

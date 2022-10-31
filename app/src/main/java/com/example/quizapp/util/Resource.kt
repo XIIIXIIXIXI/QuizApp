@@ -1,4 +1,4 @@
-package com.example.quizapp.domain.util
+package com.example.quizapp.util
 
 /**
  * Helper class for APi calls  taken for here:
