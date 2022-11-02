@@ -25,40 +25,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.quizapp.R
-import com.example.quizapp.ui.theme.ColorHistory
-import com.example.quizapp.ui.theme.QuizAppTheme
+import com.example.quizapp.ui.theme.*
 import java.util.*
 
-
-/*
-@Composable
-fun CategoryElement() {
-    Card(shape = CircleShape, backgroundColor = Color.Green,
-        /*modifier = Modifier
-            .clip(CircleShape)
-            .border(width = 2.dp, color = Color.Cyan, shape = CircleShape)*/
-    )
-    {
-        Column(modifier = Modifier
-            .fillMaxWidth(0.6f)
-            .padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(
-                painter = painterResource(id = R.drawable.history),
-                contentDescription = "Circle",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(160.dp)
-                    .clip(CircleShape)
-                    //.border(width = 2.dp, color = Color.Cyan, shape = CircleShape),
-            )
-            Spacer(modifier = Modifier.height(11.dp))
-            Text(text = "History", fontSize = 30.sp)
-        }
-
-
-    }
-}
-*/
 @Composable
 fun CategoryElement(
     color: Color,
@@ -94,11 +63,7 @@ fun CategoryElement(
 
     }
 
-        }
-
-
-
-
+}
 
 @Composable
 @Preview
@@ -107,7 +72,7 @@ fun CategoryElementPreview(){
         Surface(
             color = MaterialTheme.colors.background
         ) {
-            CategoryElement(ColorHistory, "history")
+            CategoryElement(ColorScienceNature, "science")
         }
     }
 }
