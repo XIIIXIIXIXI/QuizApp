@@ -31,7 +31,8 @@ import java.util.*
 @Composable
 fun CategoryElement(
     color: Color,
-    category: String
+    category: String,
+    //modifier: Modifier
 ) {
     Column(
         modifier = Modifier.padding(17.dp),
@@ -39,7 +40,7 @@ fun CategoryElement(
     ) {
             Card(
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(140.dp)
                     .border(width = 2.dp, color = color, shape = CircleShape),
                 shape = CircleShape,
                 backgroundColor = MaterialTheme.colors.background
@@ -48,7 +49,7 @@ fun CategoryElement(
                     Image(
                         painter = painterResource(id = LocalContext.current.resources.getIdentifier(category, "drawable", LocalContext.current.packageName)),
                         contentDescription = "Circle",
-                        modifier = Modifier.size(70.dp).padding(top = 20.dp)
+                        modifier = Modifier.size(110.dp).padding(top = 20.dp)
                     )
                     Text(
                         text = category.replaceFirstChar { it.uppercase() },
@@ -72,7 +73,7 @@ fun CategoryElementPreview(){
         Surface(
             color = MaterialTheme.colors.background
         ) {
-            CategoryElement(ColorScienceNature, "science")
+            CategoryElement(ColorScienceNature, "science", )
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.example.quizapp.domain.model
 
+import androidx.compose.ui.graphics.Color
+
 data class QuestionData(
     val questions: List<Question>
 )
@@ -12,6 +14,8 @@ data class Question(
     val question: String,
     val type: String
 )
+
+
 
 //this is for testing the app ui so the api wont get called constantly
 class testData(){

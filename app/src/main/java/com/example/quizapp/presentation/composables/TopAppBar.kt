@@ -10,12 +10,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.quizapp.ui.theme.TopBarExpendedHeight
 
 
 @Composable
 fun TopAppBar(screenName: String){
     TopAppBar(
-        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(),
+        modifier = Modifier.height(TopBarExpendedHeight),
         elevation = 8.dp,
     ) {
         Box(modifier = Modifier.height(32.dp)){
