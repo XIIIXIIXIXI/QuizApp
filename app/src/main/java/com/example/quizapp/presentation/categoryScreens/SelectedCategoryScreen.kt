@@ -1,6 +1,9 @@
 package com.example.quizapp.presentation.categoryScreens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
@@ -17,47 +20,58 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.quizapp.presentation.composables.TopAppBar
+import com.example.quizapp.ui.theme.QuizAppTheme
+import com.example.quizapp.ui.theme.Shapes
+import com.example.quizapp.ui.theme.TopBarExpendedHeight
+import com.ramcosta.composedestinations.annotation.Destination
 
 @Composable
+@Destination
 fun SelectedCategoryScreen(
-    modifier: Modifier = Modifier,
-    selected: Boolean
-
+    category: String
 ){
-    val iconSize = 35.dp
-   Column(modifier = modifier,
-       horizontalAlignment = Alignment.CenterHorizontally
-   ) {
-       if (selected){
-           Text(
-               text = "Difficulty",
-               color = Color.LightGray
-           )
-           Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null
-               , tint = Color.LightGray, modifier = Modifier.size(iconSize))
-       }else{
-           Text(
-               text = "",
-           )
-           Spacer(modifier = Modifier.size(iconSize))
-       }
-       Button(onClick = { /*TODO*/ },
-        modifier = Modifier
-            .height(40.dp)
-            .width(180.dp)
-            .clip(shape = RoundedCornerShape(50.dp)),
-          colors = ButtonDefaults.buttonColors(
-              backgroundColor = Color.Green, contentColor = Color.Black
-          )
-       ) {
-            Text("Easy")
-       }
+    TopAppBar(screenName = category)
+    Box {
+        LazyColumn(contentPadding = PaddingValues(top = TopBarExpendedHeight)){
+            item{
+                ChooseDifficultyHeader()
+            }
+        }
+    }
+}
 
-   }
+@Composable
+fun ChooseDifficultyHeader() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(horizontal = 16.dp, vertical = 16.dp)
+            .fillMaxWidth()
+            .height(90.dp)
+    ){
+        SelectedCategoryDifficulty(Modifier.weight(1f), true, "Easy", Color.Green)
+        SelectedCategoryDifficulty(modifier = Modifier.weight(1f), selected = false, difficulty = "Medium", Color.Yellow)
+        SelectedCategoryDifficulty(modifier = Modifier.weight(1f), selected = false, difficulty = "Hard", Color.Red)
+    }
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth()
+            .height(90.dp)
+    ){
+        SelectedCategoryDifficulty(modifier = Modifier, selected = false, difficulty = "All Difficulty", color = Color.LightGray)
+    }
 }
 
 @Composable
 @Preview
-fun TopAppBarPreview(){
-    SelectedCategoryScreen(modifier = Modifier, selected = false)
+fun SelectedCategoryScreenPreview() {
+    QuizAppTheme {
+        Surface(
+            color = colors.background
+        ) {
+            SelectedCategoryScreen(category = "History")
+        }
+    }
 }

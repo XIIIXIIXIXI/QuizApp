@@ -15,19 +15,22 @@ import com.example.quizapp.domain.model.CategoryData
 import com.example.quizapp.presentation.composables.TopAppBar
 import com.ramcosta.composedestinations.annotation.Destination
 import com.example.quizapp.domain.model.categories
+import com.example.quizapp.presentation.NavGraphs
 import com.example.quizapp.ui.theme.QuizAppTheme
 import com.example.quizapp.ui.theme.TopBarExpendedHeight
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /*TODO
 TODO - BottomNavigation
-TODO - ClickAble
+TODO - Navigator
 TODO - More Categories
 */
 @Composable
 @Destination
-fun ChooseCategoryScreen(){
+fun ChooseCategoryScreen(
+){
     TopAppBar(screenName = "Select Category")
-    //TODO BottomNavigationBar
     Box() {
         Content()
     }
@@ -35,7 +38,9 @@ fun ChooseCategoryScreen(){
 }
 
 @Composable
-fun Content(){
+fun Content(
+
+){
     LazyColumn(contentPadding = PaddingValues(top = TopBarExpendedHeight)) {
         item {
             CategoryList()
@@ -45,9 +50,12 @@ fun Content(){
 }
 
 @Composable
-fun CategoryList(){
+fun CategoryList(
+){
     Grid(nColoumn = 2, items = categories.categories){
-        CategoryElement(color = it.color, category = it.name)
+        CategoryElement(color = it.color, category = it.name){ it ->
+            println("navigate to: $it")
+        }
     }
 }
 

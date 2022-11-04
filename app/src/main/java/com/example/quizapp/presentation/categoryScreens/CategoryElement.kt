@@ -3,6 +3,7 @@ package com.example.quizapp.presentation.categoryScreens
 import androidx.compose.foundation.Image
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
@@ -33,6 +34,7 @@ fun CategoryElement(
     color: Color,
     category: String,
     //modifier: Modifier
+    onClick: (String) -> Unit = {}
 ) {
     Column(
         modifier = Modifier.padding(17.dp),
@@ -40,8 +42,9 @@ fun CategoryElement(
     ) {
             Card(
                 modifier = Modifier
-                    .size(140.dp)
-                    .border(width = 2.dp, color = color, shape = CircleShape),
+                    .size(150.dp)
+                    .border(width = 2.dp, color = color, shape = CircleShape)
+                    .clickable {onClick(category) },
                 shape = CircleShape,
                 backgroundColor = MaterialTheme.colors.background
             ){
@@ -54,7 +57,7 @@ fun CategoryElement(
                     Text(
                         text = category.replaceFirstChar { it.uppercase() },
                         fontWeight = Light,
-                        fontSize = 10.sp,
+                        fontSize = 15.sp,
                         color = Color.LightGray,
                         //modifier = Modifier.width(100.dp)
                     )
