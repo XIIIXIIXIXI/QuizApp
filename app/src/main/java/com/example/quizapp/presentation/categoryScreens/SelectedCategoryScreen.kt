@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.quizapp.presentation.composables.TopAppBar
+import com.example.quizapp.ui.theme.ColorHistory
 import com.example.quizapp.ui.theme.QuizAppTheme
 import com.example.quizapp.ui.theme.Shapes
 import com.example.quizapp.ui.theme.TopBarExpendedHeight
@@ -35,8 +36,32 @@ fun SelectedCategoryScreen(
         LazyColumn(contentPadding = PaddingValues(top = TopBarExpendedHeight)){
             item{
                 ChooseDifficultyHeader()
+                CircularProcess()
             }
         }
+    }
+}
+
+@Composable
+fun CircularProcess() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(290.dp)
+            .padding( 16.dp)
+            ,
+        contentAlignment = Alignment.Center
+    ){
+        CircularDragger(
+            modifier = Modifier.size(250.dp)
+                .background(Color.Gray),
+            initialValue = 1,
+            colorOne = ColorHistory,
+            colorTwo = Color.Gray,
+            circleRadius = 230f,
+            onChange = {position ->
+                //do something with this
+            })
     }
 }
 
@@ -60,7 +85,7 @@ fun ChooseDifficultyHeader() {
             .fillMaxWidth()
             .height(90.dp)
     ){
-        SelectedCategoryDifficulty(modifier = Modifier, selected = false, difficulty = "All Difficulty", color = Color.LightGray)
+        SelectedCategoryDifficulty(modifier = Modifier, selected = true, difficulty = "All Difficulty", color = Color.LightGray)
     }
 }
 
