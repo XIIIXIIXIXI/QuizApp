@@ -3,26 +3,18 @@ package com.example.quizapp.presentation.categoryScreens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.material.SnackbarDefaults.backgroundColor
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.quizapp.presentation.composables.TopAppBar
 import com.example.quizapp.ui.theme.ColorHistory
 import com.example.quizapp.ui.theme.QuizAppTheme
-import com.example.quizapp.ui.theme.Shapes
 import com.example.quizapp.ui.theme.TopBarExpendedHeight
 import com.ramcosta.composedestinations.annotation.Destination
 
@@ -37,7 +29,33 @@ fun SelectedCategoryScreen(
             item{
                 ChooseDifficultyHeader()
                 CircularProcess()
+                PlayButton()
             }
+        }
+    }
+}
+
+@Composable
+fun PlayButton() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp)
+            .padding(horizontal = 55.dp, vertical = 5.dp)
+    ){
+        Button(
+            onClick = {/* TODO */ },
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(125.dp)
+               // .padding(20.dp )
+            ,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Magenta, contentColor = Color.Black
+            )
+        ) {
+            Text("START")
         }
     }
 }
@@ -48,17 +66,18 @@ fun CircularProcess() {
         modifier = Modifier
             .fillMaxWidth()
             .height(290.dp)
-            .padding( 16.dp)
+            .padding(top = 16.dp,)
             ,
         contentAlignment = Alignment.Center
     ){
         CircularDragger(
-            modifier = Modifier.size(250.dp)
+            modifier = Modifier
+                .size(250.dp)
                 .background(Color.Gray),
             initialValue = 1,
             colorOne = ColorHistory,
             colorTwo = Color.Gray,
-            circleRadius = 230f,
+            circleRadius = 390f,
             onChange = {position ->
                 //do something with this
             })
@@ -85,7 +104,7 @@ fun ChooseDifficultyHeader() {
             .fillMaxWidth()
             .height(90.dp)
     ){
-        SelectedCategoryDifficulty(modifier = Modifier, selected = true, difficulty = "All Difficulty", color = Color.LightGray)
+        SelectedCategoryDifficulty(modifier = Modifier, selected = false, difficulty = "All Difficulty", color = Color.LightGray)
     }
 }
 
@@ -94,7 +113,7 @@ fun ChooseDifficultyHeader() {
 fun SelectedCategoryScreenPreview() {
     QuizAppTheme {
         Surface(
-            color = colors.background
+            color = colors.background,
         ) {
             SelectedCategoryScreen(category = "History")
         }
