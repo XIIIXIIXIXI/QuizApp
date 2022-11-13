@@ -1,23 +1,33 @@
 package com.example.quizapp.presentation.gameScreens
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
+import android.widget.Toast
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.quizapp.R
 import com.example.quizapp.ui.theme.QuizAppTheme
 import com.example.quizapp.ui.theme.SecondaryGameScreen
 import com.example.quizapp.ui.theme.TopBarExpendedHeight
@@ -42,7 +52,9 @@ fun GameScreen(){
                 fontSize = 22.sp
             )
             
-            Row(modifier = Modifier.fillMaxWidth().padding(start = 36.dp, top = 3.dp ), horizontalArrangement = Arrangement.Start) {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 36.dp, top = 3.dp), horizontalArrangement = Arrangement.Start) {
                 Text(
                     text = "Question", modifier = Modifier.padding(top = 5.dp),
                     color = Color.White,
@@ -62,11 +74,83 @@ fun GameScreen(){
                     modifier = Modifier.padding(top = 13.dp)
                 )
             }
-            
-            QuestionNumber(10)
+
             QuestionLine(2)
+            Text(
+                text = "In what year did the Wall Street Crash take place?",
+                modifier = Modifier.padding(horizontal = 13.dp),
+                color = Color.White,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(45.dp))
+            Answers()
             
         }
+}
+
+@Composable
+fun Answers() {
+    Column(modifier = Modifier.padding(horizontal = 13.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        AnswerOption()
+        AnswerOption()
+        AnswerOption()
+        AnswerOption()
+    }
+}
+
+@Composable
+fun AnswerOption() {
+    //State Start -> Bol right answer
+    //State choose correctly -> Show right answer,
+    //State choose wrong -> Show chosen as wrong and show right answer
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(60.dp)
+            .shadow(elevation = 2.dp, shape = RoundedCornerShape(15.dp), clip = true)
+            .background(Color(MaterialTheme.colors.background.value))
+            .border(
+                BorderStroke(2.dp, color = Color(SecondaryGameScreen.value)),
+                shape = RoundedCornerShape(15.dp)
+            )
+            .clickable(
+                enabled = true,
+                onClick = {
+
+                }
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(start = 4.dp)
+                .weight(1.2f),
+            text = "Super long text",
+
+            style = TextStyle(fontSize = 20.sp),
+        )
+        Card(
+            modifier = Modifier
+                .padding(12.dp)
+                .weight(0.2f),
+            shape = CircleShape,
+            backgroundColor = MaterialTheme.colors.background,
+            elevation = 0.dp,
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_outline_circle_24),
+                    contentDescription = "Settings Icon",
+                    modifier = Modifier
+                        .size(28.dp),
+                    tint = SecondaryGameScreen
+                )
+            }
+        }
+    }
 }
 
 @Composable
