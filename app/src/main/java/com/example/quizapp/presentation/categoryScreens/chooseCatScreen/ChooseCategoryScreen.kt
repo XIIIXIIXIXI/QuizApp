@@ -12,8 +12,10 @@ import androidx.compose.ui.unit.dp
 import com.example.quizapp.presentation.composables.TopAppBar
 import com.ramcosta.composedestinations.annotation.Destination
 import com.example.quizapp.domain.model.categories
+import com.example.quizapp.presentation.destinations.SelectedCategoryScreenDestination
 import com.example.quizapp.ui.theme.QuizAppTheme
 import com.example.quizapp.ui.theme.TopBarExpendedHeight
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /*TODO
 TODO - BottomNavigation
@@ -21,23 +23,24 @@ TODO - Navigator
 TODO - More Categories
 */
 @Composable
-@Destination
+@Destination(start = true)
 fun ChooseCategoryScreen(
+    navigator: DestinationsNavigator
 ){
     TopAppBar(screenName = "Select Category")
     Box() {
-        Content()
+        Content(navigator)
     }
 
 }
 
 @Composable
 fun Content(
-
+    navigator: DestinationsNavigator
 ){
     LazyColumn(contentPadding = PaddingValues(top = TopBarExpendedHeight)) {
         item {
-            CategoryList()
+            CategoryList(navigator)
         }
 
     }
@@ -45,9 +48,15 @@ fun Content(
 
 @Composable
 fun CategoryList(
+    navigator: DestinationsNavigator
 ){
     Grid(nColoumn = 2, items = categories.categories){
         CategoryElement(color = it.color, category = it.name){ it ->
+            navigator.navigate(
+                SelectedCategoryScreenDestination(
+                    it
+                )
+            )
             println("navigate to: $it")
         }
     }
@@ -82,7 +91,7 @@ fun ChooseCategoryScreenPreview(){
         Surface(
             color = MaterialTheme.colors.background
         ){
-            ChooseCategoryScreen()
+       //     ChooseCategoryScreen()
         }
     }
 

@@ -16,10 +16,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
 @Composable
-@Destination(start = true)
+@Destination()
 fun TestScreenApi(
     navigator: DestinationsNavigator,
-     //testData : testData = testData()
     viewModel: QuizViewModel = hiltViewModel()
 ){
 

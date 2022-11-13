@@ -20,10 +20,10 @@ import com.example.quizapp.ui.theme.Shapes
 @Composable
 fun SelectedCategoryDifficulty(
     modifier: Modifier,
-    selected: Boolean,
+    selectedState: String,
     difficulty:String,
-    color: Color
-
+    color: Color,
+    onClick: (String) -> Unit = {}
 ) {
 
     val iconSize = 35.dp
@@ -31,7 +31,7 @@ fun SelectedCategoryDifficulty(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (selected) {
+        if (selectedState == difficulty) {
             Text(
                 text = "Difficulty",
                 color = Color.LightGray,
@@ -64,7 +64,7 @@ fun SelectedCategoryDifficulty(
 
              */
         Button(
-            onClick = {/* TODO */ },
+            onClick = {onClick(difficulty)},
             shape = Shapes.medium,
             modifier =
             if (difficulty != "All Difficulty") modifier
@@ -92,5 +92,5 @@ fun DifficultyButton(difficulty:String, modifier: Modifier){
 @Composable
 @Preview
 fun SelectedCategoryDifficultyPreview(){
-    SelectedCategoryDifficulty(modifier = Modifier, selected = true, "easy", color = Color.Yellow)
+    SelectedCategoryDifficulty(modifier = Modifier, selectedState = "Easy", "easy", color = Color.Yellow)
 }

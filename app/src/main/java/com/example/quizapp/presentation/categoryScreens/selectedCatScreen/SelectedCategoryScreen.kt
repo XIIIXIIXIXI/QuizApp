@@ -1,42 +1,50 @@
 package com.example.quizapp.presentation.categoryScreens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.quizapp.presentation.categoryScreens.selectedCatScreen.SelectedCategoryViewModel
 import com.example.quizapp.presentation.composables.TopAppBar
 import com.example.quizapp.ui.theme.ColorHistory
 import com.example.quizapp.ui.theme.QuizAppTheme
 import com.example.quizapp.ui.theme.TopBarExpendedHeight
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+
 
 @Composable
 @Destination
 fun SelectedCategoryScreen(
-    category: String
+    navigator: DestinationsNavigator,
+    category: String,
+    viewModel: SelectedCategoryViewModel = viewModel<SelectedCategoryViewModel>(),
 ){
     TopAppBar(screenName = category)
     Box {
         LazyColumn(contentPadding = PaddingValues(top = TopBarExpendedHeight)){
             item{
-                ChooseDifficultyHeader()
-                CircularProcess()
-                PlayButton()
+                ChooseDifficultyHeader(viewModel)
+                CircularProcess(viewModel)
+                PlayButton(viewModel, category)
             }
         }
     }
 }
 
 @Composable
-fun PlayButton() {
+fun PlayButton(viewModel: SelectedCategoryViewModel, category: String) {
+    val state by viewModel.state.collectAsState()
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -44,7 +52,7 @@ fun PlayButton() {
             .padding(horizontal = 55.dp, vertical = 5.dp)
     ){
         Button(
-            onClick = {/* TODO */ },
+            onClick = {println("${state.selectedDifficulty} ${state.nQuestions} $category") },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
@@ -61,7 +69,8 @@ fun PlayButton() {
 }
 
 @Composable
-fun CircularProcess() {
+fun CircularProcess(viewModel: SelectedCategoryViewModel) {
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -74,18 +83,22 @@ fun CircularProcess() {
             modifier = Modifier
                 .size(250.dp)
                 .background(Color.Gray),
-            initialValue = 1,
+            initialValue = 10,
             colorOne = ColorHistory,
             colorTwo = Color.Gray,
             circleRadius = 390f,
             onChange = {position ->
-                //do something with this
+                viewModel.changeNQuestions(position)
             })
     }
 }
 
 @Composable
-fun ChooseDifficultyHeader() {
+fun ChooseDifficultyHeader(
+    viewModel: SelectedCategoryViewModel
+) {
+    val state by viewModel.state.collectAsState()
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -93,9 +106,15 @@ fun ChooseDifficultyHeader() {
             .fillMaxWidth()
             .height(90.dp)
     ){
-        SelectedCategoryDifficulty(Modifier.weight(1f), true, "Easy", Color.Green)
-        SelectedCategoryDifficulty(modifier = Modifier.weight(1f), selected = false, difficulty = "Medium", Color.Yellow)
-        SelectedCategoryDifficulty(modifier = Modifier.weight(1f), selected = false, difficulty = "Hard", Color.Red)
+        SelectedCategoryDifficulty(Modifier.weight(1f), state.selectedDifficulty, "Easy", Color.Green){ difficulty ->
+            viewModel.changeDifficulty(difficulty)
+        }
+        SelectedCategoryDifficulty(modifier = Modifier.weight(1f), state.selectedDifficulty, difficulty = "Medium", Color.Yellow){ difficulty ->
+            viewModel.changeDifficulty(difficulty)
+        }
+        SelectedCategoryDifficulty(modifier = Modifier.weight(1f), state.selectedDifficulty, difficulty = "Hard", Color.Red){ difficulty ->
+            viewModel.changeDifficulty(difficulty)
+        }
     }
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -104,7 +123,9 @@ fun ChooseDifficultyHeader() {
             .fillMaxWidth()
             .height(90.dp)
     ){
-        SelectedCategoryDifficulty(modifier = Modifier, selected = false, difficulty = "All Difficulty", color = Color.LightGray)
+        SelectedCategoryDifficulty(modifier = Modifier, state.selectedDifficulty, difficulty = "All Difficulty", color = Color.LightGray){ difficulty ->
+            viewModel.changeDifficulty(difficulty)
+        }
     }
 }
 
@@ -115,7 +136,7 @@ fun SelectedCategoryScreenPreview() {
         Surface(
             color = colors.background,
         ) {
-            SelectedCategoryScreen(category = "History")
+      //      SelectedCategoryScreen(category = "History")
         }
     }
 }
