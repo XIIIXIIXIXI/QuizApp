@@ -178,7 +178,13 @@ fun AnswerOption(answer: String, option: Int, viewModel: QuizViewModel) {
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_outline_circle_24),
+                    painter = painterResource(id = if(state.answerStatus[option] == "answerCorrect"){R.drawable.ic_baseline_check_circle_24}
+                    else if (state.answerStatus[option] == "answerWrong") { R.drawable.ic_baseline_highlight_off_24 }
+                    else{
+                        R.drawable.ic_outline_circle_24
+                    }
+
+                    ),
                     contentDescription = "Settings Icon",
                     modifier = Modifier
                         .size(28.dp),
