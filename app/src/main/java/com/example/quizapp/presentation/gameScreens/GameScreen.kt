@@ -34,7 +34,6 @@ import com.example.quizapp.R
 import com.example.quizapp.ui.theme.QuizAppTheme
 import com.example.quizapp.ui.theme.SecondaryGameScreen
 import com.example.quizapp.ui.theme.TopBarExpendedHeight
-import com.example.quizapp.domain.model.questions
 import com.example.quizapp.presentation.QuizViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 
@@ -46,16 +45,30 @@ fun GameScreen(
     nQuestions: Int,
     difficulty: String,
     viewModel: QuizViewModel = hiltViewModel()
-){
+) {
     val state = viewModel.state.value
-        val currentNumber = 6
-        val nQuestions = 20
+
+
+        if(state.isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else if(state.error != null) {
+            Text(
+                text = state.error,
+                color = MaterialTheme.colors.error
+            )
+        } else {
+
         Column(
             modifier = Modifier
                 .background(MaterialTheme.colors.background)
                 .fillMaxSize()
         ) {
- //           CategoryTopBar(category = "history")
+            //           CategoryTopBar(category = "history")
             val category = category
             Text(
                 text = category.uppercase(),
@@ -63,17 +76,19 @@ fun GameScreen(
                 color = SecondaryGameScreen,
                 fontSize = 22.sp
             )
-            
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 36.dp, top = 3.dp), horizontalArrangement = Arrangement.Start) {
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 36.dp, top = 3.dp), horizontalArrangement = Arrangement.Start
+            ) {
                 Text(
                     text = "Question", modifier = Modifier.padding(top = 5.dp),
                     color = Color.White,
                     fontSize = 40.sp,
                 )
                 Text(
-                    text = "$currentNumber",
+                    text = "${state.currentQuestionNumber}",
                     modifier = Modifier.padding(start = 10.dp),
                     color = Color.White,
                     fontSize = 45.sp,
@@ -87,7 +102,7 @@ fun GameScreen(
                 )
             }
 
-            QuestionLine(2)
+            QuestionLine(nQuestions, viewModel)
             Text(
                 text = state.questions[0].question,
                 modifier = Modifier.padding(horizontal = 13.dp),
@@ -96,23 +111,23 @@ fun GameScreen(
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(45.dp))
-            Answers()
-            
-        }
-}
+            Answers(viewModel)
 
-@Composable
-fun Answers() {
-    Column(modifier = Modifier.padding(horizontal = 13.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        AnswerOption()
-        AnswerOption()
-        AnswerOption()
-        AnswerOption()
+        }
     }
 }
 
 @Composable
-fun AnswerOption() {
+fun Answers(viewModel: QuizViewModel) {
+    Column(modifier = Modifier.padding(horizontal = 13.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        for (answer in viewModel.state.value.shuffledAnswers){
+            AnswerOption(answer)
+        }
+    }
+}
+
+@Composable
+fun AnswerOption(answer: String) {
     //State Start -> Bol right answer
     //State choose correctly -> Show right answer,
     //State choose wrong -> Show chosen as wrong and show right answer
@@ -140,7 +155,7 @@ fun AnswerOption() {
             modifier = Modifier
                 .padding(start = 4.dp)
                 .weight(1.2f),
-            text = "Super long text",
+            text = answer,
 
             style = TextStyle(fontSize = 20.sp),
         )
@@ -166,8 +181,9 @@ fun AnswerOption() {
 }
 
 @Composable
-fun QuestionLine(nQuestions: Int) {
+fun QuestionLine(nQuestions: Int, viewModel: QuizViewModel) {
 
+    val questions = viewModel.state.value.questions
     val paddingWidth = 24
 //    Spacer(modifier = Modifier.height(5.dp))
     Canvas(modifier = Modifier
@@ -177,20 +193,20 @@ fun QuestionLine(nQuestions: Int) {
         .height(20.dp)){
         val canvasWidth = size.width
         val canvasHeight = size.height
-        val space = 60f
+        val space = 400f/nQuestions
 //        val space2 = 60f
-        val squareHeight = canvasHeight / 2
+        val squareHeight = canvasHeight / 5
         val squareWidth = (((canvasWidth - (nQuestions-1) * space ) / nQuestions))
         for (i in questions.indices){
             drawRect(
                 color = if (questions[i].answerStatus == 0){
-                    Color.Gray
+                    SecondaryGameScreen
                 } else if (questions[i].answerStatus == 1){
                     Color.Green
                 } else {
                     Color.Red
                 },
-                topLeft = Offset( (i * space + i * squareWidth) * i, squareHeight / 2),
+                topLeft = Offset( (i * space + i * squareWidth) , squareHeight / 2),
                 size = Size(squareWidth, squareHeight)
             )
         }

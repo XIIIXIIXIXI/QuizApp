@@ -8,5 +8,7 @@ data class QuizState(
     val nQuestions: Int = 10,
     val category: String = "s",
     val isLoading: Boolean = false,
-    val error: String? =null
+    val error: String? =null,
+    val currentQuestionNumber: Int = 0,
+    val shuffledAnswers: List<String> = emptyList()
 )

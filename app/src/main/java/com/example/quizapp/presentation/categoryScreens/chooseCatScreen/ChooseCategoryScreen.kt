@@ -22,7 +22,7 @@ TODO - BottomNavigation
 TODO - More Categories
 */
 @Composable
-@Destination
+@Destination(start = true)
 fun ChooseCategoryScreen(
     navigator: DestinationsNavigator
 ){

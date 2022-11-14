@@ -23,7 +23,7 @@ import androidx.compose.ui.Alignment.Companion.Center
 
 
 @Composable
-@Destination(start = true)
+@Destination
 fun TestScreenApi(
     navigator: DestinationsNavigator,
     viewModel: QuizViewModel = hiltViewModel()

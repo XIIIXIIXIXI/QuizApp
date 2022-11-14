@@ -30,7 +30,7 @@ class QuizViewModel @Inject constructor(
         loadQuestions()
     }
 
-
+/*
     fun loadQuestions(){
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
@@ -52,22 +52,28 @@ class QuizViewModel @Inject constructor(
 
         }
     }
+*/
 
-/*
     fun loadQuestions(){
         viewModelScope.launch {
+            _state.value = _state.value.copy(isLoading = true)
             val category = savedStateHandle.get<String>("category")
             val nQuestions = savedStateHandle.get<Int>("nQuestions") ?: return@launch //ellers brokker den sig med nullable
             var difficulty = savedStateHandle.get<String>("difficulty") ?: return@launch
             difficulty = difficulty.replaceFirstChar { it.lowercase() }
-            val result = repository.getQuestionList(10, categoryMap["history"]!!, "easy")
+            val result = repository.getQuestionList(nQuestions, categoryMap[category]!!, difficulty)
             when(result){
                 is Resource.Success -> {
                     val resultList = result.data!!.results.mapIndexed {index, entry ->
-                        Question(entry.category, entry.correct_answer, entry.difficulty, entry.incorrect_answers, entry.question, entry.type)
+                        Question(entry.category, entry.correct_answer, entry.difficulty, entry.incorrect_answers, entry.question, entry.type, 0)
                     }
                     _state.value = _state.value.copy(
-                        questions = resultList
+                        questions = resultList,
+                    )
+                    shuffleAnswers(0)
+                    _state.value = _state.value.copy(
+                        isLoading = false,
+                        error = null
                     )
                 }
                 is Resource.Error -> {
@@ -76,23 +82,20 @@ class QuizViewModel @Inject constructor(
             }
         }
     }
-*/
-    private val _stateCategory = MutableStateFlow(SelectedCategoryState())
-    val stateCategory = _stateCategory.asStateFlow()
 
-    fun changeDifficulty(difficulty: String){
-        _stateCategory.value = _stateCategory.value.copy(
-            selectedDifficulty = difficulty
+    fun shuffleAnswers(questionNumber: Int){
+        val questions = _state.value.questions
+        val listToShuffle: MutableList<String> = mutableListOf()
+        for (answer in questions[questionNumber].incorrect_answers){
+            listToShuffle.add(answer)
+        }
+        listToShuffle.add(questions[questionNumber].correct_answer)
+        listToShuffle.shuffle()
+        _state.value = _state.value.copy(
+            shuffledAnswers = listToShuffle
         )
+
     }
-    fun changeNQuestions(number: Int){
-        _stateCategory.value = _stateCategory.value.copy(
-            nQuestions = number
-        )
-    }
-    fun changeCategory(category: String){
-        _stateCategory.value = _stateCategory.value.copy(
-            category = category
-        )
-    }
+
+
 }
