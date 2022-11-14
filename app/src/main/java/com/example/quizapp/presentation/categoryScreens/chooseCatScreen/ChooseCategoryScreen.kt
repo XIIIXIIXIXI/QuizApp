@@ -19,11 +19,10 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /*TODO
 TODO - BottomNavigation
-TODO - Navigator
 TODO - More Categories
 */
 @Composable
-@Destination(start = true)
+@Destination
 fun ChooseCategoryScreen(
     navigator: DestinationsNavigator
 ){
@@ -51,10 +50,10 @@ fun CategoryList(
     navigator: DestinationsNavigator
 ){
     Grid(nColoumn = 2, items = categories.categories){
-        CategoryElement(color = it.color, category = it.name){ it ->
+        CategoryElement(color = it.color, category = it.name){ category ->
             navigator.navigate(
                 SelectedCategoryScreenDestination(
-                    it
+                    category
                 )
             )
             println("navigate to: $it")

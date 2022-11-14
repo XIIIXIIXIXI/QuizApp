@@ -10,6 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -27,15 +29,25 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.quizapp.R
 import com.example.quizapp.ui.theme.QuizAppTheme
 import com.example.quizapp.ui.theme.SecondaryGameScreen
 import com.example.quizapp.ui.theme.TopBarExpendedHeight
 import com.example.quizapp.domain.model.questions
+import com.example.quizapp.presentation.QuizViewModel
+import com.ramcosta.composedestinations.annotation.Destination
 
 
 @Composable
-fun GameScreen(){
+@Destination()
+fun GameScreen(
+    category: String,
+    nQuestions: Int,
+    difficulty: String,
+    viewModel: QuizViewModel = hiltViewModel()
+){
+    val state = viewModel.state.value
         val currentNumber = 6
         val nQuestions = 20
         Column(
@@ -44,7 +56,7 @@ fun GameScreen(){
                 .fillMaxSize()
         ) {
  //           CategoryTopBar(category = "history")
-            val category = "history"
+            val category = category
             Text(
                 text = category.uppercase(),
                 modifier = Modifier.padding(start = 36.dp, top = 20.dp),
@@ -77,7 +89,7 @@ fun GameScreen(){
 
             QuestionLine(2)
             Text(
-                text = "In what year did the Wall Street Crash take place?",
+                text = state.questions[0].question,
                 modifier = Modifier.padding(horizontal = 13.dp),
                 color = Color.White,
                 fontSize = 30.sp,
@@ -215,7 +227,7 @@ fun GameScreenPreview(){
         Surface(
             color = MaterialTheme.colors.background
         ) {
-            GameScreen()
+       //     GameScreen()
         }
     }
 }
