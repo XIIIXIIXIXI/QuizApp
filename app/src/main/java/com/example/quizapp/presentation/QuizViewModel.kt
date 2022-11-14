@@ -94,8 +94,32 @@ class QuizViewModel @Inject constructor(
         _state.value = _state.value.copy(
             shuffledAnswers = listToShuffle
         )
-
     }
 
+    fun checkAnswer(answerOption: Int){
+        val state = _state.value
+        var correctAnswer: Int = 5 //dummy value
+        for(i in 0..3){
+            if(state.shuffledAnswers[i] == state.questions[state.currentQuestionNumber].correct_answer){
+                correctAnswer = i
+                break
+            }
+        }
 
+        val answers: MutableList<String> = mutableListOf("", "", "", "")
+        if (answerOption == correctAnswer){
+            _state.value.questions[state.currentQuestionNumber].answerStatus = 1
+            answers[answerOption] = "answerCorrect"
+            _state.value = _state.value.copy(
+                answerStatus = answers
+            )
+        }else{
+            _state.value.questions[state.currentQuestionNumber].answerStatus = 2
+            answers[correctAnswer] = "answerCorrect"
+            answers[answerOption] = "answerWrong"
+            _state.value = _state.value.copy(
+                answerStatus = answers
+            )
+        }
+    }
 }

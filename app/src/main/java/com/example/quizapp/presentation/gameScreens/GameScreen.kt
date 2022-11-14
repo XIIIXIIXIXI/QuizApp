@@ -88,7 +88,7 @@ fun GameScreen(
                     fontSize = 40.sp,
                 )
                 Text(
-                    text = "${state.currentQuestionNumber}",
+                    text = "${state.currentQuestionNumber+1}",
                     modifier = Modifier.padding(start = 10.dp),
                     color = Color.White,
                     fontSize = 45.sp,
@@ -120,18 +120,18 @@ fun GameScreen(
 @Composable
 fun Answers(viewModel: QuizViewModel) {
     Column(modifier = Modifier.padding(horizontal = 13.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        for (answer in viewModel.state.value.shuffledAnswers){
-            AnswerOption(answer)
+        for (i in viewModel.state.value.shuffledAnswers.indices){
+            AnswerOption(viewModel.state.value.shuffledAnswers[i], i, viewModel)
         }
     }
 }
 
 @Composable
-fun AnswerOption(answer: String) {
+fun AnswerOption(answer: String, option: Int, viewModel: QuizViewModel) {
     //State Start -> Bol right answer
     //State choose correctly -> Show right answer,
     //State choose wrong -> Show chosen as wrong and show right answer
-
+    val state = viewModel.state.value
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -139,13 +139,22 @@ fun AnswerOption(answer: String) {
             .shadow(elevation = 2.dp, shape = RoundedCornerShape(15.dp), clip = true)
             .background(Color(MaterialTheme.colors.background.value))
             .border(
-                BorderStroke(2.dp, color = Color(SecondaryGameScreen.value)),
+                BorderStroke(2.dp, color = if (state.answerStatus[option] == "answerCorrect"){
+                    Color.Green
+                } else if (state.answerStatus[option] == "answerWrong") {
+                    Color.Red
+                } else {
+                    Color(SecondaryGameScreen.value)
+                }
+
+                ),
+            //    Color(SecondaryGameScreen.value)),
                 shape = RoundedCornerShape(15.dp)
             )
             .clickable(
                 enabled = true,
                 onClick = {
-
+                    viewModel.checkAnswer(option)
                 }
             ),
         verticalAlignment = Alignment.CenterVertically,
@@ -173,7 +182,13 @@ fun AnswerOption(answer: String) {
                     contentDescription = "Settings Icon",
                     modifier = Modifier
                         .size(28.dp),
-                    tint = SecondaryGameScreen
+                    tint = if (state.answerStatus[option] == "answerCorrect"){
+                        Color.Green
+                    } else if (state.answerStatus[option] == "answerWrong") {
+                        Color.Red
+                    } else {
+                        SecondaryGameScreen
+                    }
                 )
             }
         }
