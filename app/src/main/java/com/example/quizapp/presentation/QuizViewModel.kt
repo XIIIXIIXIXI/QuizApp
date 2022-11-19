@@ -88,9 +88,11 @@ class QuizViewModel @Inject constructor(
         val answers: MutableList<String> = mutableListOf("", "", "", "")
         if (answerOption == correctAnswer){
             _state.value.questions[state.currentQuestionNumber].answerStatus = 1
+            val rightAnswer = _state.value.nRightAnswers +1
             answers[answerOption] = "answerCorrect"
             _state.value = _state.value.copy(
-                answerStatus = answers
+                answerStatus = answers,
+                nRightAnswers = rightAnswer
             )
         }else{
             _state.value.questions[state.currentQuestionNumber].answerStatus = 2
