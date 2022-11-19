@@ -65,7 +65,7 @@ fun GameScreen(
         )
     } else {
         if (state.gameOver){
-            GameOver(navigator)
+            GameOver(navigator, viewModel)
         } else{
             Column(
                 modifier = Modifier
@@ -133,6 +133,7 @@ fun GameScreen(
     }
 }
 
+/*
 @Composable
 fun GameOver(navigator: DestinationsNavigator) {
     Box(modifier = Modifier.fillMaxSize(), ){
@@ -155,7 +156,7 @@ fun GameOver(navigator: DestinationsNavigator) {
         }
     }
 }
-
+*/
 @Composable
 fun Answers(viewModel: QuizViewModel) {
     Column(modifier = Modifier.padding(horizontal = 13.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {

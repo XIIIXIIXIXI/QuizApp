@@ -100,9 +100,14 @@ class QuizViewModel @Inject constructor(
                 answerStatus = answers
             )
         }
-        //Set state ready for next screen
+
+        //Set state ready for next screen and save the answer for later
+        val saveAnswer = _state.value.shuffledAnswers[answerOption]
+        val saveAnswerList = _state.value.saveAnswer
+        saveAnswerList.add(saveAnswer)
         _state.value = _state.value.copy(
-            pressToContinue = true
+            pressToContinue = true,
+            saveAnswer = saveAnswerList
         )
     }
 

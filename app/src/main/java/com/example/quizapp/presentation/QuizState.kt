@@ -16,6 +16,8 @@ data class QuizState(
     val currentQuestionNumber: Int = 0,
 
     val shuffledAnswers: List<String> = emptyList(),
+    val saveAnswer: MutableList<String> = mutableListOf(),
+
 
     //UI STUFF
     //composable answerOption: unanswered, answerCorrect, answerWrong
