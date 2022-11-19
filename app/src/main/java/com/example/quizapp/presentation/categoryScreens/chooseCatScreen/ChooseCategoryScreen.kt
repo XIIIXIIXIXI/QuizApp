@@ -27,7 +27,7 @@ fun ChooseCategoryScreen(
     navigator: DestinationsNavigator
 ){
     TopAppBar(screenName = "Select Category")
-    Box() {
+    Box(modifier = Modifier.padding(top = TopBarExpendedHeight)) {
         Content(navigator)
     }
 
@@ -37,7 +37,7 @@ fun ChooseCategoryScreen(
 fun Content(
     navigator: DestinationsNavigator
 ){
-    LazyColumn(contentPadding = PaddingValues(top = TopBarExpendedHeight)) {
+    LazyColumn() {
         item {
             CategoryList(navigator)
         }
@@ -53,7 +53,7 @@ fun CategoryList(
         CategoryElement(color = it.color, category = it.name){ category ->
             navigator.navigate(
                 SelectedCategoryScreenDestination(
-                    category
+                    category = category,
                 )
             )
             println("navigate to: $it")

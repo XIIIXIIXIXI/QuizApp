@@ -13,17 +13,17 @@ data class Category(
 )
 
 val categoryMap = mapOf(
-    "general knowledge" to 9,
+    "general" to 9,
     "books" to 10,
     "film" to 11,
     "music" to 12,
-    "musical & theatres" to 13,
+    "theatres" to 13,
     "television" to 14,
-    "video games" to 15,
-    "board games" to 16,
-    "science & nature" to 17,
-    "science: computers" to 18,
-    "science: mathematics" to 19,
+    "videogames" to 15,
+    "boardgames" to 16,
+    "science" to 17,
+    "computers" to 18,
+    "math" to 19,
     "mythology" to 20,
     "sports" to 21,
     "geography" to 22,
@@ -34,10 +34,36 @@ val categoryMap = mapOf(
     "animals" to 27,
     "vehicles" to 28,
     "comics" to 29,
-    "science: gadgets" to 30,
-    "anime & manga" to 31,
-    "cartton & animations" to 32,
+    "science_gadgets" to 30,
+    "anime_manga" to 31,
+    "cartoon_animations" to 32,
     )
+val colorMap = mapOf(
+    "general" to ColorGeneral,
+    "books" to ColorBooks,
+    "film" to ColorFilm,
+    "music" to ColorMusic,
+    "theatres" to ColorTheatre,
+    "television" to ColorTelevision,
+    "videogames" to ColorVideogames,
+    "boardgames" to ColorBoardgames,
+    "science" to ColorScience_Nature,
+    "computers" to ColorComputers,
+    "math" to ColorMath,
+    "mythology" to ColorMythologie,
+    "sports" to ColorSports,
+    "geography" to ColorGeography,
+    "history" to ColorHistory,
+    "politics" to ColorPolitics,
+    "art" to ColorArt,
+    "celebrities" to ColorHistory,
+    "animals" to ColorAnimals,
+    "vehicles" to ColorHistory,
+    "comics" to ColorHistory,
+    "science_gadgets" to ColorHistory,
+    "anime_manga" to ColorHistory,
+    "cartoon_animations" to ColorHistory,
+)
 
 val categories = CategoryData(
 
@@ -45,9 +71,20 @@ val categories = CategoryData(
                 Category("history", ColorHistory),
                 Category("art", ColorArt),
                 Category("sports", ColorSports),
-                Category("videogames", ColorEntertainmentVideogames),
-                Category("science", ColorScienceNature),
-                Category("geography", ColorGeography)
+                Category("videogames", ColorVideogames),
+                Category("science", ColorScience_Nature),
+                Category("geography", ColorGeography),
+                Category("computers", ColorComputers),
+                Category("animals", ColorAnimals),
+                Category("books", ColorBooks),
+                Category("boardgames", ColorBoardgames),
+                Category("math", ColorMath),
+                Category("music", ColorMusic),
+                Category("theatre", ColorTheatre),
+                Category("mythologie", ColorMythologie),
+                Category("politics", ColorPolitics),
+                Category("television", ColorTelevision),
+                Category("general", ColorGeneral)
             )
         )
 

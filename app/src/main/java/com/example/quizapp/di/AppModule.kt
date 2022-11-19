@@ -38,6 +38,7 @@ object AppModule {
 
 
 }
+
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class ReposioryModule{

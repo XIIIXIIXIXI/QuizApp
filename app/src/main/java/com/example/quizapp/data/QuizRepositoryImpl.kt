@@ -10,6 +10,7 @@ import javax.inject.Singleton
 class QuizRepositoryImpl @Inject constructor(
     private val api: QuizApi
 ): QuizRepository{
+
     override suspend fun getQuestionList(
         amount: Int,
         category: Int,

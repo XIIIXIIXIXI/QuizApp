@@ -30,30 +30,6 @@ class QuizViewModel @Inject constructor(
         loadQuestions()
     }
 
-/*
-    fun loadQuestions(){
-        viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true)
-            val result = repository.getQuestionList(10, categoryMap["history"]!!, "easy")
-            when(result){
-                is Resource.Success -> {
-                    val resultList = result.data!!.results.mapIndexed { index, entry ->
-                        Question(entry.category, entry.correct_answer, entry.difficulty, entry.incorrect_answers, entry.question, entry.type)
-                    }
-                    _state.value = _state.value.copy(
-                        questions = resultList,
-                        isLoading = false,
-                        error = null
-                    )
-                }
-                is Resource.Error -> {
-                }
-            }
-
-        }
-    }
-*/
-
     fun loadQuestions(){
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
@@ -61,6 +37,9 @@ class QuizViewModel @Inject constructor(
             val nQuestions = savedStateHandle.get<Int>("nQuestions") ?: return@launch //ellers brokker den sig med nullable
             var difficulty = savedStateHandle.get<String>("difficulty") ?: return@launch
             difficulty = difficulty.replaceFirstChar { it.lowercase() }
+            if (difficulty == "all Difficulty"){
+                difficulty = ""
+            }
             val result = repository.getQuestionList(nQuestions, categoryMap[category]!!, difficulty)
             when(result){
                 is Resource.Success -> {
@@ -121,5 +100,53 @@ class QuizViewModel @Inject constructor(
                 answerStatus = answers
             )
         }
+        //Set state ready for next screen
+        _state.value = _state.value.copy(
+            pressToContinue = true
+        )
     }
+
+    fun pressContinue(){
+        val newQuestionNumber = _state.value.currentQuestionNumber + 1
+        val answerOptions: List<String> = listOf("", "", "", "")
+
+        //check if it was the last question
+        if (newQuestionNumber == _state.value.questions.size){
+            _state.value = _state.value.copy(
+                gameOver = true
+            )
+            return
+        }
+
+        _state.value = _state.value.copy(
+            currentQuestionNumber  = newQuestionNumber,
+            answerStatus = answerOptions,
+            pressToContinue = false
+        )
+        shuffleAnswers(_state.value.currentQuestionNumber)
+    }
+
+    /*
+    fun loadQuestions(){
+        viewModelScope.launch {
+            _state.value = _state.value.copy(isLoading = true)
+            val result = repository.getQuestionList(10, categoryMap["history"]!!, "easy")
+            when(result){
+                is Resource.Success -> {
+                    val resultList = result.data!!.results.mapIndexed { index, entry ->
+                        Question(entry.category, entry.correct_answer, entry.difficulty, entry.incorrect_answers, entry.question, entry.type)
+                    }
+                    _state.value = _state.value.copy(
+                        questions = resultList,
+                        isLoading = false,
+                        error = null
+                    )
+                }
+                is Resource.Error -> {
+                }
+            }
+
+        }
+    }
+*/
 }

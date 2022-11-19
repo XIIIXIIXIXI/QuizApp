@@ -35,84 +35,123 @@ import com.example.quizapp.ui.theme.QuizAppTheme
 import com.example.quizapp.ui.theme.SecondaryGameScreen
 import com.example.quizapp.ui.theme.TopBarExpendedHeight
 import com.example.quizapp.presentation.QuizViewModel
+import com.example.quizapp.presentation.destinations.ChooseCategoryScreenDestination
+import com.example.quizapp.presentation.destinations.GameScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
 @Composable
 @Destination()
 fun GameScreen(
+    navigator: DestinationsNavigator,
     category: String,
     nQuestions: Int,
     difficulty: String,
     viewModel: QuizViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
-
-
-        if(state.isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else if(state.error != null) {
-            Text(
-                text = state.error,
-                color = MaterialTheme.colors.error
-            )
-        } else {
-
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colors.background)
-                .fillMaxSize()
+    if(state.isLoading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
-            //           CategoryTopBar(category = "history")
-            val category = category
-            Text(
-                text = category.uppercase(),
-                modifier = Modifier.padding(start = 36.dp, top = 20.dp),
-                color = SecondaryGameScreen,
-                fontSize = 22.sp
-            )
-
-            Row(
+            CircularProgressIndicator()
+        }
+    } else if(state.error != null) {
+        Text(
+            text = state.error,
+            color = MaterialTheme.colors.error
+        )
+    } else {
+        if (state.gameOver){
+            GameOver(navigator)
+        } else{
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 36.dp, top = 3.dp), horizontalArrangement = Arrangement.Start
+                    .background(MaterialTheme.colors.background)
+                    .fillMaxSize()
             ) {
+                //           CategoryTopBar(category = "history")
+                val category = category
                 Text(
-                    text = "Question", modifier = Modifier.padding(top = 5.dp),
-                    color = Color.White,
-                    fontSize = 40.sp,
+                    text = category.uppercase(),
+                    modifier = Modifier.padding(start = 36.dp, top = 20.dp),
+                    color = SecondaryGameScreen,
+                    fontSize = 22.sp
                 )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 36.dp, top = 3.dp), horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        text = "Question", modifier = Modifier.padding(top = 5.dp),
+                        color = Color.White,
+                        fontSize = 40.sp,
+                    )
+                    Text(
+                        text = "${state.currentQuestionNumber+1}",
+                        modifier = Modifier.padding(start = 10.dp),
+                        color = Color.White,
+                        fontSize = 45.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "/$nQuestions",
+                        color = SecondaryGameScreen,
+                        fontSize = 33.sp,
+                        modifier = Modifier.padding(top = 13.dp)
+                    )
+                }
+
+                QuestionLine(nQuestions, viewModel)
                 Text(
-                    text = "${state.currentQuestionNumber+1}",
-                    modifier = Modifier.padding(start = 10.dp),
+                    text = state.questions[state.currentQuestionNumber].question,
+                    modifier = Modifier.padding(horizontal = 13.dp),
                     color = Color.White,
-                    fontSize = 45.sp,
+                    fontSize = 30.sp,
                     fontWeight = FontWeight.Bold
                 )
-                Text(
-                    text = "/$nQuestions",
-                    color = SecondaryGameScreen,
-                    fontSize = 33.sp,
-                    modifier = Modifier.padding(top = 13.dp)
-                )
+                Spacer(modifier = Modifier.height(45.dp))
+                Answers(viewModel)
+
+
+                if (state.pressToContinue){
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center ) {
+                        TextButton(onClick = { viewModel.pressContinue() }) {
+                            Text(
+                                text = "- press to continue -",
+                                modifier = Modifier.padding(horizontal = 36.dp, vertical = 20.dp),
+                                fontSize = 22.sp
+                            )
+                        }
+                    }
+                }
             }
+        }
+    }
+}
 
-            QuestionLine(nQuestions, viewModel)
-            Text(
-                text = state.questions[0].question,
-                modifier = Modifier.padding(horizontal = 13.dp),
-                color = Color.White,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold
+@Composable
+fun GameOver(navigator: DestinationsNavigator) {
+    Box(modifier = Modifier.fillMaxSize(), ){
+        Button(
+            onClick = { navigator.navigate(
+                //this also destroys the viewmodel
+                ChooseCategoryScreenDestination
+            ) },
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(125.dp)
+            // .padding(20.dp )
+            ,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Magenta, contentColor = Color.Black
             )
-            Spacer(modifier = Modifier.height(45.dp))
-            Answers(viewModel)
-
+        ) {
+            Text("START")
         }
     }
 }
@@ -139,20 +178,21 @@ fun AnswerOption(answer: String, option: Int, viewModel: QuizViewModel) {
             .shadow(elevation = 2.dp, shape = RoundedCornerShape(15.dp), clip = true)
             .background(Color(MaterialTheme.colors.background.value))
             .border(
-                BorderStroke(2.dp, color = if (state.answerStatus[option] == "answerCorrect"){
-                    Color.Green
-                } else if (state.answerStatus[option] == "answerWrong") {
-                    Color.Red
-                } else {
-                    Color(SecondaryGameScreen.value)
-                }
+                BorderStroke(
+                    2.dp, color = if (state.answerStatus[option] == "answerCorrect") {
+                        Color.Green
+                    } else if (state.answerStatus[option] == "answerWrong") {
+                        Color.Red
+                    } else {
+                        Color(SecondaryGameScreen.value)
+                    }
 
                 ),
-            //    Color(SecondaryGameScreen.value)),
+                //    Color(SecondaryGameScreen.value)),
                 shape = RoundedCornerShape(15.dp)
             )
             .clickable(
-                enabled = true,
+                enabled = !state.pressToContinue,
                 onClick = {
                     viewModel.checkAnswer(option)
                 }
@@ -165,7 +205,7 @@ fun AnswerOption(answer: String, option: Int, viewModel: QuizViewModel) {
                 .padding(start = 4.dp)
                 .weight(1.2f),
             text = answer,
-
+            color = Color.White,
             style = TextStyle(fontSize = 20.sp),
         )
         Card(
@@ -220,13 +260,16 @@ fun QuestionLine(nQuestions: Int, viewModel: QuizViewModel) {
         val squareWidth = (((canvasWidth - (nQuestions-1) * space ) / nQuestions))
         for (i in questions.indices){
             drawRect(
-                color = if (questions[i].answerStatus == 0){
+                color =
+                if (questions[i].answerStatus == 0 && (i != viewModel.state.value.currentQuestionNumber)) {
                     SecondaryGameScreen
                 } else if (questions[i].answerStatus == 1){
                     Color.Green
-                } else {
+                } else if (!viewModel.state.value.pressToContinue && (i == viewModel.state.value.currentQuestionNumber)) {
+                    Color.White
+                }else {
                     Color.Red
-                },
+                      },
                 topLeft = Offset( (i * space + i * squareWidth) , squareHeight / 2),
                 size = Size(squareWidth, squareHeight)
             )
@@ -257,6 +300,8 @@ fun CategoryTopBar(category: String){
     }
 }
 */
+
+/*
 @Preview
 @Composable
 fun GameScreenPreview(){
@@ -268,3 +313,4 @@ fun GameScreenPreview(){
         }
     }
 }
+*/

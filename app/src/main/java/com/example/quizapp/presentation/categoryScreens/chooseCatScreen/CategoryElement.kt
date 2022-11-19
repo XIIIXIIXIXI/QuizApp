@@ -34,7 +34,7 @@ fun CategoryElement(
     color: Color,
     category: String,
     //modifier: Modifier
-    onClick: (String) -> Unit = {}
+    onClick: (String,) -> Unit = {}
 ) {
     Column(
         modifier = Modifier.padding(17.dp),
@@ -76,7 +76,7 @@ fun CategoryElementPreview(){
         Surface(
             color = MaterialTheme.colors.background
         ) {
-            CategoryElement(ColorScienceNature, "science", )
+ //           CategoryElement(ColorScienceNature, "science", )
         }
     }
 }

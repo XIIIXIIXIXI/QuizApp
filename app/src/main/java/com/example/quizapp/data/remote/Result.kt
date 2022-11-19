@@ -1,5 +1,9 @@
 package com.example.quizapp.data.remote
 
+/**
+ * Remote data object
+ */
+
 data class Result(
     val category: String,
     val correct_answer: String,

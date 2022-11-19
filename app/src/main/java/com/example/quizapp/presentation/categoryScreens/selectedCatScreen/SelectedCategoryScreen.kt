@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.quizapp.domain.model.colorMap
 import com.example.quizapp.presentation.categoryScreens.selectedCatScreen.SelectedCategoryViewModel
 import com.example.quizapp.presentation.composables.TopAppBar
 import com.example.quizapp.presentation.destinations.GameScreenDestination
@@ -38,7 +39,7 @@ fun SelectedCategoryScreen(
         LazyColumn(contentPadding = PaddingValues(top = TopBarExpendedHeight)){
             item{
                 ChooseDifficultyHeader(viewModel)
-                CircularProcess(viewModel)
+                CircularProcess(viewModel, category)
                 PlayButton(viewModel, category, navigator)
             }
         }
@@ -66,7 +67,7 @@ fun PlayButton(viewModel: SelectedCategoryViewModel, category: String, navigator
                // .padding(20.dp )
             ,
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.Magenta, contentColor = Color.Black
+                backgroundColor = colorMap[category] as Color, contentColor = Color.Black
             )
         ) {
             Text("START")
@@ -75,7 +76,7 @@ fun PlayButton(viewModel: SelectedCategoryViewModel, category: String, navigator
 }
 
 @Composable
-fun CircularProcess(viewModel: SelectedCategoryViewModel) {
+fun CircularProcess(viewModel: SelectedCategoryViewModel, category: String) {
 
     Box(
         modifier = Modifier
@@ -90,7 +91,7 @@ fun CircularProcess(viewModel: SelectedCategoryViewModel) {
                 .size(250.dp)
                 .background(Color.Gray),
             initialValue = 10,
-            colorOne = ColorHistory,
+            colorOne = colorMap[category] as Color,
             colorTwo = Color.Gray,
             circleRadius = 390f,
             onChange = {position ->
@@ -130,7 +131,7 @@ fun ChooseDifficultyHeader(
             .height(90.dp)
     ){
         SelectedCategoryDifficulty(modifier = Modifier, state.selectedDifficulty, difficulty = "All Difficulty", color = Color.LightGray){ difficulty ->
-            viewModel.changeDifficulty(difficulty)
+            viewModel.changeDifficulty("All Difficulty")
         }
     }
 }
