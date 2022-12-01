@@ -64,6 +64,38 @@ val colorMap = mapOf(
     "anime_manga" to ColorHistory,
     "cartoon_animations" to ColorHistory,
 )
+val testMap = mapOf(
+    "general" to listOf<Int>(300, 118, 123, 59),
+    "books" to listOf<Int>(97, 23, 30, 20),
+    "film" to listOf<Int>(200, 50, 90, 30),
+    "music" to listOf<Int>(300, 90, 50, 50),
+    "theatre" to listOf<Int>(25, 7, 8, 6),
+    "television" to listOf<Int>(50, 50, 50, 20),
+    "videogames" to listOf<Int>(50, 50, 50, 50),
+    "boardgames" to listOf<Int>(45, 12, 10, 16),
+    "science" to listOf<Int>(50, 44, 50, 40),
+    "computers" to listOf<Int>(50, 36, 50, 28),
+    "math" to listOf<Int>(40, 7, 14, 9),
+    "mythology" to listOf<Int>(45, 10, 18, 7),
+    "sports" to listOf<Int>(50, 36, 50, 11),
+    "geography" to listOf<Int>(50, 50, 50, 40),
+    "history" to listOf<Int>(50, 50, 50, 50),
+    "politics" to listOf<Int>(45, 10, 18, 8),
+    "art" to listOf<Int>(18, 5, 6, 5),
+    "celebrities" to listOf<Int>(30, 6, 20, 4),
+    "animals" to listOf<Int>(50, 16, 20, 9),
+    "vehicles" to listOf<Int>(50, 12, 20, 10),
+    "comics" to listOf<Int>(50, 10, 20, 10),
+    "science_gadgets" to listOf<Int>(),
+    "anime_manga" to listOf<Int>(),
+    "cartoon_animations" to listOf<Int>(),
+)
+val difficultyToNumber = mapOf(
+    "All Difficulty" to 0,
+    "Easy" to 1,
+    "Medium" to 2,
+    "Hard" to 3
+)
 
 val categories = CategoryData(
 

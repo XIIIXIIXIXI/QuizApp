@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.sp
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.quizapp.domain.model.colorMap
+import com.example.quizapp.domain.model.difficultyToNumber
+import com.example.quizapp.domain.model.testMap
 import com.example.quizapp.presentation.categoryScreens.selectedCatScreen.SelectedCategoryViewModel
 import com.example.quizapp.presentation.composables.TopAppBar
 import com.example.quizapp.presentation.destinations.GameScreenDestination
@@ -70,7 +72,8 @@ fun PlayButton(viewModel: SelectedCategoryViewModel, category: String, navigator
 
 @Composable
 fun CircularProcess(viewModel: SelectedCategoryViewModel, category: String) {
-
+    val state by viewModel.state.collectAsState()
+    val maxQuestions = testMap[category]!![difficultyToNumber[state.selectedDifficulty]!!]
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -79,17 +82,59 @@ fun CircularProcess(viewModel: SelectedCategoryViewModel, category: String) {
             ,
         contentAlignment = Alignment.Center
     ){
-        CircularDragger(
-            modifier = Modifier
-                .size(250.dp)
-                .background(Color.Gray),
-            initialValue = 10,
-            colorOne = colorMap[category] as Color,
-            colorTwo = Color.Gray,
-            circleRadius = 390f,
-            onChange = {position ->
-                viewModel.changeNQuestions(position)
-            })
+        if (state.selectedDifficulty == "Easy"){
+            CircularDragger(
+                modifier = Modifier
+                    .size(250.dp)
+                    .background(Color.Gray),
+                initialValue = if (state.nQuestions > maxQuestions) maxQuestions else state.nQuestions,
+                maxValue = maxQuestions,
+                colorOne = colorMap[category] as Color,
+                colorTwo = Color.Gray,
+                circleRadius = 390f,
+                onChange = {position ->
+                    viewModel.changeNQuestions(position)
+                })
+        } else if(state.selectedDifficulty == "Medium"){
+            CircularDragger(
+                modifier = Modifier
+                    .size(250.dp)
+                    .background(Color.Gray),
+                initialValue = if (state.nQuestions > maxQuestions) maxQuestions else state.nQuestions,
+                maxValue = maxQuestions,
+                colorOne = colorMap[category] as Color,
+                colorTwo = Color.Gray,
+                circleRadius = 390f,
+                onChange = {position ->
+                    viewModel.changeNQuestions(position)
+                })
+        }else if(state.selectedDifficulty == "Hard"){
+            CircularDragger(
+                modifier = Modifier
+                    .size(250.dp)
+                    .background(Color.Gray),
+                initialValue = if (state.nQuestions > maxQuestions) maxQuestions else state.nQuestions,
+                maxValue = maxQuestions,
+                colorOne = colorMap[category] as Color,
+                colorTwo = Color.Gray,
+                circleRadius = 390f,
+                onChange = {position ->
+                    viewModel.changeNQuestions(position)
+                })
+        }else{
+            CircularDragger(
+                modifier = Modifier
+                    .size(250.dp)
+                    .background(Color.Gray),
+                initialValue = if (state.nQuestions > maxQuestions) maxQuestions else state.nQuestions,
+                maxValue = maxQuestions,
+                colorOne = colorMap[category] as Color,
+                colorTwo = Color.Gray,
+                circleRadius = 390f,
+                onChange = {position ->
+                    viewModel.changeNQuestions(position)
+                })
+        }
     }
 }
 
