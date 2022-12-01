@@ -102,8 +102,8 @@ fun CircularDragger(
             drawCircle(
                 brush = Brush.radialGradient(
                     listOf(
-                        colorOne.copy(0.0f),
-                        colorTwo.copy(0.15f)
+                        colorOne.copy(0.3f),
+                        colorTwo.copy(0.0f)
                     )
                 ),
                 center = circleCenter,
@@ -140,7 +140,7 @@ fun CircularDragger(
             drawContext.canvas.nativeCanvas.apply {
                 drawIntoCanvas {
                     drawText(
-                        "Number OF",
+                        "Number Of",
                         circleCenter.x,
                         circleCenter.y - 60.dp.toPx() / 3,
                         Paint().apply {

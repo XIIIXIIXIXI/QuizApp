@@ -26,6 +26,10 @@ val ColorTheatre = Color(0xFF660000)
 val ColorMythologie = Color(0xFF5a68ff)
 val ColorPolitics = Color(0xFF70a300)
 val ColorTelevision = Color(0xFF005f75)
+val ColorDifficultyEasy = Color(0xFF15a549)
+val ColorDifficultyMedium = Color(0xFFfbd30e)
+val ColorDifficultyHard = Color(0xFFd11f26)
+val ColorDifficultyAll = Color(0xFFc6c6c6)
 
 
 val SecondaryGameScreen = Color(0xFF434961)

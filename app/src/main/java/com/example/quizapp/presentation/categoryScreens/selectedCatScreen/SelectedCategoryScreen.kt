@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.quizapp.domain.model.colorMap
@@ -20,9 +21,7 @@ import com.example.quizapp.presentation.categoryScreens.selectedCatScreen.Select
 import com.example.quizapp.presentation.composables.TopAppBar
 import com.example.quizapp.presentation.destinations.GameScreenDestination
 import com.example.quizapp.presentation.destinations.SelectedCategoryScreenDestination
-import com.example.quizapp.ui.theme.ColorHistory
-import com.example.quizapp.ui.theme.QuizAppTheme
-import com.example.quizapp.ui.theme.TopBarExpendedHeight
+import com.example.quizapp.ui.theme.*
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -49,31 +48,25 @@ fun SelectedCategoryScreen(
 @Composable
 fun PlayButton(viewModel: SelectedCategoryViewModel, category: String, navigator: DestinationsNavigator) {
     val state by viewModel.state.collectAsState()
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp)
-            .padding(horizontal = 55.dp, vertical = 5.dp)
-    ){
-        Button(
-            onClick = { navigator.navigate(
-                GameScreenDestination(category, state.nQuestions, state.selectedDifficulty)
-            ) },
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(125.dp)
-               // .padding(20.dp )
-            ,
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = colorMap[category] as Color, contentColor = Color.Black
+    Spacer(modifier = Modifier.height(40.dp))
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center ) {
+        TextButton(onClick = { navigator.navigate(
+            GameScreenDestination(
+                category,
+                state.nQuestions,
+                state.selectedDifficulty)) })
+        {
+            Text(
+                text = "- press to continue -",
+                modifier = Modifier.padding(horizontal = 36.dp, vertical = 20.dp),
+                fontSize = 25.sp
             )
-        ) {
-            Text("START")
+        }
         }
     }
-}
+//navigator.navigate(GameScreenDestination(category, state.nQuestions, state.selectedDifficulty))
+
+
 
 @Composable
 fun CircularProcess(viewModel: SelectedCategoryViewModel, category: String) {
@@ -113,13 +106,13 @@ fun ChooseDifficultyHeader(
             .fillMaxWidth()
             .height(90.dp)
     ){
-        SelectedCategoryDifficulty(Modifier.weight(1f), state.selectedDifficulty, "Easy", Color.Green){ difficulty ->
+        SelectedCategoryDifficulty(Modifier.weight(1f), state.selectedDifficulty, "Easy", ColorDifficultyEasy){ difficulty ->
             viewModel.changeDifficulty(difficulty)
         }
-        SelectedCategoryDifficulty(modifier = Modifier.weight(1f), state.selectedDifficulty, difficulty = "Medium", Color.Yellow){ difficulty ->
+        SelectedCategoryDifficulty(modifier = Modifier.weight(1f), state.selectedDifficulty, difficulty = "Medium", ColorDifficultyMedium){ difficulty ->
             viewModel.changeDifficulty(difficulty)
         }
-        SelectedCategoryDifficulty(modifier = Modifier.weight(1f), state.selectedDifficulty, difficulty = "Hard", Color.Red){ difficulty ->
+        SelectedCategoryDifficulty(modifier = Modifier.weight(1f), state.selectedDifficulty, difficulty = "Hard", ColorDifficultyHard){ difficulty ->
             viewModel.changeDifficulty(difficulty)
         }
     }
@@ -130,7 +123,7 @@ fun ChooseDifficultyHeader(
             .fillMaxWidth()
             .height(90.dp)
     ){
-        SelectedCategoryDifficulty(modifier = Modifier, state.selectedDifficulty, difficulty = "All Difficulty", color = Color.LightGray){ difficulty ->
+        SelectedCategoryDifficulty(modifier = Modifier, state.selectedDifficulty, difficulty = "All Difficulty", color = ColorDifficultyAll){ difficulty ->
             viewModel.changeDifficulty("All Difficulty")
         }
     }

@@ -19,13 +19,9 @@ data class QuizState(
     val saveAnswer: MutableList<String> = mutableListOf(),
     val nRightAnswers: Int = 0,
 
-
-    //UI STUFF
-    //composable answerOption: unanswered, answerCorrect, answerWrong
     val answerStatus: List<String> = listOf("", "", "", ""),
     val isLoading: Boolean = false,
     val error: String? =null,
     val pressToContinue: Boolean = false,
     val gameOver: Boolean = false
-
 )
