@@ -32,7 +32,7 @@ import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 
 @OptIn(ExperimentalSnapperApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun GameOver(navigator: DestinationsNavigator, viewModel: QuizViewModel
+fun GameOver(navigator: DestinationsNavigator, viewModel: QuizViewModel, nQuestions: Int
 
 ){
     val state = viewModel.state.value
@@ -45,7 +45,7 @@ fun GameOver(navigator: DestinationsNavigator, viewModel: QuizViewModel
             .fillMaxWidth()
             .weight(2f)) {
             Text(
-                text = " ${state.nRightAnswers} out of ${state.nQuestions}",
+                text = " ${state.nRightAnswers} out of $nQuestions",
                 fontSize = 50.sp,
                 modifier = Modifier.padding(vertical = 16.dp, horizontal = 80.dp),
                 color = Color.White

@@ -65,7 +65,7 @@ fun GameScreen(
         )
     } else {
         if (state.gameOver){
-            GameOver(navigator, viewModel)
+            GameOver(navigator, viewModel, nQuestions)
         } else{
             Column(
                 modifier = Modifier
