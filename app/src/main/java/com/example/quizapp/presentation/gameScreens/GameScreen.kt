@@ -9,9 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -25,10 +23,10 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.quizapp.R
 import com.example.quizapp.ui.theme.QuizAppTheme
@@ -106,13 +104,16 @@ fun GameScreen(
                 }
 
                 QuestionLine(nQuestions, viewModel)
+                /*
                 Text(
                     text = state.questions[state.currentQuestionNumber].question,
                     modifier = Modifier.padding(horizontal = 13.dp),
                     color = Color.White,
                     fontSize = 30.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                    fontWeight = FontWeight.Bold,
+                )*/
+               DynamicText(state.questions[state.currentQuestionNumber].question)
+
                 Spacer(modifier = Modifier.height(45.dp))
                 Answers(viewModel)
 
@@ -131,6 +132,27 @@ fun GameScreen(
             }
         }
     }
+}
+
+@Composable
+fun DynamicText(question: String) {
+    val textLength = question.length
+    println(textLength)
+    val fontSize = when {
+        textLength <= 90 -> 30.sp
+        textLength <= 100 -> 28.sp
+        textLength <= 110 -> 25.sp
+        textLength <= 130 -> 25.sp
+        else -> 20.sp
+    }
+
+    Text(
+        text = question,
+        modifier = Modifier.padding(horizontal = 13.dp),
+        color = Color.White,
+        fontSize = fontSize,
+        fontWeight = FontWeight.Bold,
+    )
 }
 
 /*

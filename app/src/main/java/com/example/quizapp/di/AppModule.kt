@@ -20,6 +20,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    //take an instance of 'QuizApi' interface and returns an implementation of the 'QuizRepositoryImpl'
     @Singleton
     @Provides
     fun provideQuizRepository(

@@ -2,18 +2,15 @@ package com.example.quizapp.presentation
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.text.toLowerCase
+import androidx.core.text.HtmlCompat
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quizapp.domain.model.Question
 import com.example.quizapp.domain.model.categoryMap
 import com.example.quizapp.domain.repository.QuizRepository
-import com.example.quizapp.presentation.categoryScreens.selectedCatScreen.SelectedCategoryState
 import com.example.quizapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -44,8 +41,9 @@ class QuizViewModel @Inject constructor(
             when(result){
                 is Resource.Success -> {
                     val resultList = result.data!!.results.mapIndexed {index, entry ->
-                        Question(entry.category, entry.correct_answer, entry.difficulty, entry.incorrect_answers, entry.question, entry.type, 0)
+                        Question(entry.category, entry.correct_answer, entry.difficulty, entry.incorrect_answers, encodedTextConverter(entry.question), entry.type, 0)
                     }
+
                     _state.value = _state.value.copy(
                         questions = resultList,
                     )
@@ -60,6 +58,9 @@ class QuizViewModel @Inject constructor(
                 }
             }
         }
+    }
+    fun encodedTextConverter(text: String): String {
+        return HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
     }
 
     fun shuffleAnswers(questionNumber: Int){
