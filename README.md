@@ -25,18 +25,18 @@ The activity diagram seen below, shopws the simple flow of the application.
 ![image](https://github.com/martinkoch1/QuizApp/assets/71707790/4823cdf2-3ae7-43cc-9041-f955bc32f462)
 
 * Category selection:
-<img src="https://github.com/martinkoch1/QuizApp/assets/71707790/3a34c09c-01a1-45fb-a8f5-8287bf5c6c39" max-width="400" height="790">
+<img src="https://github.com/martinkoch1/QuizApp/assets/71707790/3a34c09c-01a1-45fb-a8f5-8287bf5c6c39" max-width="350" height="700">
 
 
 
 
 * Difficulty and number of questions selection:
 
-<img src="https://github.com/martinkoch1/QuizApp/assets/71707790/a8394873-908c-4088-b559-dd6042944686" width="400" height="790"> <img src="https://github.com/martinkoch1/QuizApp/assets/71707790/9331ce04-557e-4e8f-a51e-eb1c43b2bef8" width="400" height="790">
+<img src="https://github.com/martinkoch1/QuizApp/assets/71707790/a8394873-908c-4088-b559-dd6042944686" width="350" height="700"> <img src="https://github.com/martinkoch1/QuizApp/assets/71707790/9331ce04-557e-4e8f-a51e-eb1c43b2bef8" width="350" height="700">
 
 * Game screen
-<img src="https://github.com/martinkoch1/QuizApp/assets/71707790/cbcc5c05-830b-4178-9927-afaedc612d91" width="400" height="790">
-<img src="https://github.com/martinkoch1/QuizApp/assets/71707790/01fb7588-d1c9-410f-b333-ff9e2822c416" width="400" height="790">
+<img src="https://github.com/martinkoch1/QuizApp/assets/71707790/cbcc5c05-830b-4178-9927-afaedc612d91" width="350" height="700">
+<img src="https://github.com/martinkoch1/QuizApp/assets/71707790/01fb7588-d1c9-410f-b333-ff9e2822c416" width="350" height="700">
 
 
 
